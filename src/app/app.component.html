@@ -3,33 +3,116 @@
 <head>
   ng add @angular/material
   <link rel="icon" type="image/png" href="favicon.png" />
-  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Roboto"
+    rel="stylesheet"
+  />
 </head>
-
+<!-- header -->
+<app-header></app-header>
 <body>
-  <div>
-    <form [formGroup]="deelnemerForm" (ngSubmit)="onSubmit()" class="deelnemer-form">
-      <mat-form-field class="full-width">
-        <input matInput placeholder="Naam" formControlName="naamControl">
-      </mat-form-field>
-      <br>
-      <mat-form-field class="full-width">
-        <input matInput placeholder="Inleg" formControlName="inlegControl">
-      </mat-form-field>
-      <button mat-button class="button" (click)="addInleg" [disabled]="!deelnemerForm.valid">
-        Add
+  <div class="background">
+    <div class="invoer">
+      <form
+        [formGroup]="deelnemerForm"
+        (ngSubmit)="onSubmit()"
+        class="deelnemer-form"
+      >
+        <mat-form-field class="full-width test-box">
+          <mat-placeholder>
+            <mat-icon>person</mat-icon>
+            Naam
+          </mat-placeholder>
+          <input
+            matInput
+            formControlName="naamControl"
+            [(ngModel)]="naamInvoer"
+            autocomplete="off"
+            class="test-box"
+            maxlength="20"
+          />
+          <button
+            mat-button
+            *ngIf="naamInvoer"
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="naamInvoer = ''"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+          <mat-hint align="end">{{ naamInvoer.length }} / 20</mat-hint>
+        </mat-form-field>
+        <mat-error class="test-box">
+          <span
+            class="error-small-display"
+            *ngIf="
+              !deelnemerForm.get('naamControl').valid &&
+              deelnemerForm.get('naamControl').touched
+            "
+            >Vul een geldige naam in.</span
+          >
+        </mat-error>
+        <br />
+        <mat-form-field class="full-width">
+          <mat-placeholder>
+            <mat-icon>euro_symbol</mat-icon>
+            Inleg
+          </mat-placeholder>
+          <input
+            matInput
+            formControlName="inlegControl"
+            [(ngModel)]="inlegInvoer"
+            autocomplete="off"
+          />
+          <button
+            mat-button
+            *ngIf="inlegInvoer"
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="inlegInvoer = ''"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+        <mat-error>
+          <span
+            class="error-small-display"
+            *ngIf="
+              !deelnemerForm.get('inlegControl').valid &&
+              deelnemerForm.get('inlegControl').touched
+            "
+            >Vul geldig bedrag in.</span
+          >
+        </mat-error>
+        <br />
+        <button
+          mat-button
+          class="button"
+          type="submit"
+          [disabled]="!deelnemerForm.valid"
+        >
+          Add
+        </button>
+        <mat-error> </mat-error>
+      </form>
+
+      <button
+        mat-button
+        class="button"
+        (click)="bereken()"
+        [disabled]="deelnemers.length === 0"
+      >
+        Bereken me
       </button>
-      <mat-error>
-
-      </mat-error>
-    </form>
-
-    <button mat-button class="button" (click)="bereken()">Bereken me</button>
-    <div *ngIf="kasboek">
-      Totaal = {{kasboek.totaal}}
-      <div><br></div>
-      <div *ngFor="let item of kasboek.items">
-        {{item.van}} geeft {{item.naar}} het bedrag {{item.bedrag}}
+      <br />
+      <div *ngIf="kasboek">
+        <strong>Totaal</strong> = {{ kasboek.totaal }}
+        <div><br /></div>
+        <div *ngFor="let item of kasboek.items">
+          {{ item.van }} geeft {{ item.naar }} het bedrag {{ item.bedrag }}
+        </div>
       </div>
     </div>
   </div>

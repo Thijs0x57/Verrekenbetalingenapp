@@ -1,20 +1,34 @@
+import { Kasboek } from "./../models/kasboek";
 import { Deelnemer } from "../models/deelnemer";
-import { Kasboek } from "../models/kasboek";
 import { KasboekItem } from "../models/kasboekItem";
 
-export class VerrekenCalculator{
-    constructor(){ }
+export class VerrekenCalculator {
+  constructor() {}
 
-    verreken(deelnemers: Deelnemer[]){
+  verreken(deelnemers: Deelnemer[]): Kasboek {
+    const kasboek = new Kasboek();
 
-        let kasboekItem = new KasboekItem('Sam', 'Thijs', 10000);
-        let kasboekItem2 = new KasboekItem('Je moeder', 'Thijs', 4.20);
-        let items: KasboekItem[] = [];
-        
-        items.push(kasboekItem, kasboekItem2);
+    kasboek.totaal = deelnemers
+      .map(item => item.inleg)
+      .reduce((acc, val) => acc + val);
+    console.log('kasboek totaal: ', kasboek.totaal);
 
-        let kasboek = new Kasboek(40, items);
+    const dn: Deelnemer[] = deelnemers.filter(
+      item => Math.abs(item.inleg * deelnemers.length - kasboek.totaal) >= 0.001
+    );
 
-        return kasboek;
+    for (const idx of dn) {
+      for (const idy of dn) {
+        if (idx !== idy) {
+          const betaling = idx.inleg / dn.length - idy.inleg / dn.length;
+          if (betaling > 0) {
+            const kasboekItem = new KasboekItem(idy.name, idx.name, parseFloat(betaling.toFixed(2)));
+            kasboek.items.push(kasboekItem);
+          }
+        }
+      }
     }
+
+    return kasboek;
+  }
 }
