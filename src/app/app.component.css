@@ -1,0 +1,19 @@
+.input{
+    display: block;
+    margin-top: 5px;
+}
+.button{
+    display: block;
+    margin-top: 5px;
+    box-shadow: 2px 2px lightgray;
+}
+
+/* input.ng-invalid.ng-touched{
+    border-style: solid;
+    border-color: red;
+}
+
+input.ng-valid.ng-touched{
+    border-style: solid;
+    border-color: lightgreen;
+} */

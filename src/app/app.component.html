@@ -1,0 +1,36 @@
+<!--The content below is only a placeholder and can be replaced.-->
+
+<head>
+  ng add @angular/material
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+</head>
+
+<body>
+  <div>
+    <form [formGroup]="deelnemerForm" (ngSubmit)="onSubmit()" class="deelnemer-form">
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Naam" formControlName="naamControl">
+      </mat-form-field>
+      <br>
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Inleg" formControlName="inlegControl">
+      </mat-form-field>
+      <button mat-button class="button" (click)="addInleg" [disabled]="!deelnemerForm.valid">
+        Add
+      </button>
+      <mat-error>
+
+      </mat-error>
+    </form>
+
+    <button mat-button class="button" (click)="bereken()">Bereken me</button>
+    <div *ngIf="kasboek">
+      Totaal = {{kasboek.totaal}}
+      <div><br></div>
+      <div *ngFor="let item of kasboek.items">
+        {{item.van}} geeft {{item.naar}} het bedrag {{item.bedrag}}
+      </div>
+    </div>
+  </div>
+</body>
