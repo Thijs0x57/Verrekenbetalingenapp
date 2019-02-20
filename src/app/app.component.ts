@@ -3,6 +3,7 @@ import { VerrekenCalculator } from "./logic/VerrekenCalculator";
 import { Kasboek } from "./models/kasboek";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Deelnemer } from "./models/deelnemer";
+import { CalculateService } from "./services/calculate.service";
 
 @Component({
   selector: "app-root",
@@ -19,6 +20,10 @@ export class AppComponent implements OnInit {
   deelnemers: Deelnemer[] = [];
   calc = new VerrekenCalculator();
   kasboek: Kasboek = null;
+
+  constructor(private calcService: CalculateService){
+
+  }
 
   ngOnInit() {
     this.deelnemers = [];
@@ -42,6 +47,10 @@ export class AppComponent implements OnInit {
     const deelnemer = new Deelnemer(naam, inleg);
     this.deelnemers.push(deelnemer);
     this.kasboek = new VerrekenCalculator().verreken(this.deelnemers);
+
+    this.calcService.calculateTransactions(this.deelnemers).subscribe((info)=>{
+      console.log(info);
+    })
   }
 
   bereken() {

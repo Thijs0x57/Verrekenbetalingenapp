@@ -1,5 +1,5 @@
 <!--The content below is only a placeholder and can be replaced.-->
-
+<router-outlet></router-outlet>
 <head>
   ng add @angular/material
   <link rel="icon" type="image/png" href="favicon.png" />
@@ -37,7 +37,7 @@
             matSuffix
             mat-icon-button
             aria-label="Clear"
-            (click)="naamInvoer = ''"
+            (click)="naamInvoer = ''; deelnemerForm.get('naamControl').touched = false;"
           >
             <mat-icon>close</mat-icon>
           </button>
@@ -71,7 +71,7 @@
             matSuffix
             mat-icon-button
             aria-label="Clear"
-            (click)="inlegInvoer = ''"
+            (click)="inlegInvoer = ''; deelnemerForm.get('inlegControl').touched = false;"
           >
             <mat-icon>close</mat-icon>
           </button>
